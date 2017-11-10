@@ -25,7 +25,7 @@ podTemplate(label: 'java',
                 }
 
                 stage('Publish') {
-                    sh './gradlew bintrayUpload -PbuildNumber=latest'
+                    sh './gradlew bintrayUpload -PbuildNumber=latest -PbintrayPublish=true'
                 }
             }
 
