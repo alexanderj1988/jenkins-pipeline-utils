@@ -1,4 +1,3 @@
-
 package de.stroeerdigitalpublishing.git
 
 class GitUtils {
