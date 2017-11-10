@@ -15,8 +15,6 @@ repositories {
 group = 'de.stroeerdigitalpublishing'
 version = '1.0-' + (project.hasProperty('buildNumber') ? project.property('buildNumber')  : 'latest')
 
-
-
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.10'
 }
@@ -25,7 +23,7 @@ bintray {
 	user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
 	key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
 	configurations = ['archives']
-	publish = true
+	publish = project.hasProperty('bintrayPublish')? project.property('bintrayPublish').toBoolean() : false
 	override = true
 	pkg {
 		repo = 'maven'
