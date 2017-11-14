@@ -21,7 +21,6 @@ podTemplate(label: 'java',
                 stage('Checkout'){
                     def scmVars = checkout scm
                     commitHash = scmVars.GIT_COMMIT
-                    sh "echo ${commitHash}"
                 }
 
             container('jdk8') {
@@ -30,7 +29,7 @@ podTemplate(label: 'java',
                 }
 
                 stage('Publish') {
-                    sh "./gradlew bintrayUpload -PbintrayPublish=true"
+                    sh "./gradlew bintrayUpload -PbintrayPublish=true -PbuildNumber=${commitHash}"
                 }
             }
 
