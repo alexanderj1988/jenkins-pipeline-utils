@@ -30,6 +30,7 @@ podTemplate(label: 'java',
 
                 stage('Publish') {
                     sh "./gradlew bintrayUpload -PbintrayPublish=true -PbuildNumber=${commitHash}"
+                    sh "./gradlew bintrayUpload -PbintrayPublish=true"
                 }
             }
 
