@@ -15,17 +15,22 @@ podTemplate(label: 'java',
 
 
         if (env.BRANCH_NAME == 'master') {
+
+                def commitHash
+
                 stage('Checkout'){
-                    checkout scm
+                    def scmVars = checkout scm
+                    commitHash = scmVars.GIT_COMMIT
+                    sh "echo ${commitHash}"
                 }
 
             container('jdk8') {
                 stage('Build') {
-                    sh './gradlew clean build'
+                    sh "./gradlew clean build"
                 }
 
                 stage('Publish') {
-                    sh './gradlew bintrayUpload -PbuildNumber=latest -PbintrayPublish=true'
+                    sh "./gradlew bintrayUpload -PbintrayPublish=true"
                 }
             }
 

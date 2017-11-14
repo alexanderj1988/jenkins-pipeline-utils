@@ -1,7 +1,7 @@
 plugins {
     id "com.jfrog.bintray" version "1.7.1"
 }
-
+apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'groovy'
@@ -13,10 +13,24 @@ repositories {
 }
 
 group = 'de.stroeerdigitalpublishing'
-version = '1.0-' + (project.hasProperty('buildNumber') ? project.property('buildNumber')  : 'latest')
+version = '1.0.' + (project.hasProperty('buildNumber') ? project.property('buildNumber') : 'Latest')
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.10'
+    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+
+	// https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
+	compile group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+}
+
+publishing {
+	publications {
+		BintrayPublication(MavenPublication) {
+			from components.java
+			groupId 'de.stroeerdigitalpublishing'
+			artifactId 'jenkins-pipeline-utils'
+			version '1.0.' + (project.hasProperty('buildNumber') ? project.property('buildNumber') : 'Latest')
+		}
+	}
 }
 
 bintray {	
@@ -25,18 +39,18 @@ bintray {
 	configurations = ['archives']
 	publish = project.hasProperty('bintrayPublish')? project.property('bintrayPublish').toBoolean() : false
 	override = true
+	publications = ['BintrayPublication']
 	pkg {
 		repo = 'maven'
 		name = 'jenkins-pipeline-utils'
 		userOrg = 'stroeerdigitalpublishing'
 		licenses = ['Apache-2.0']
 		vcsUrl = 'https://github.com/stroeerdigitalpublishing/jenkins-pipeline-utils.git'
-		//version {
-		//	name = '1.0-latest'
-		//	desc = 'Jenkins Pipeline Utilities'
-		//	vcsTag = '1.0-latest'
-		//	attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
-		//}
+		version {
+			name = '1.0-Alpha'
+			desc = 'Jenkins Public Util Library'
+			attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+		}
 	}
 }
 
